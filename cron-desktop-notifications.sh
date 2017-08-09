@@ -1,4 +1,6 @@
 #!/bin/bash
+source $HOME/.bash_profile
+PATH="/usr/local/bin:${PATH}"
 
 # Check for an interactive shell
 if [ -z "$PS1" ]; then

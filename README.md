@@ -6,37 +6,35 @@ Scrape Reserve America for your favorite campsite
 Usage
 -----
 
-Run the script with a few environment variables like so:
+Set the `desired_trips` variable in scraper.py.
+
+Run the setup script, and call the scraper.py script!
 
 ```sh
 > pip install -r requirements.txt
-> export CAMPGROUND="https://www.reserveamerica.com/camping/big-basin-redwoods-sp/r/campgroundDetails.do?contractCode=CA&parkId=120009"
-> export LENGTH=2
-> export DATE="04/14/2017"
 > ./scraper.py
 ```
 
+
 Then the scraper will search the given campsite for the date with the length of stay.
 
-Or, you can set up the script to run under cron, and notify you on macOS using the provided [`cron.sh`](./cron.sh) script.
+cron
+======================
+You can also set up the script to run under cron, and notify you on macOS using one of the provided cron scripts ( [`cron-desktop-notification.sh`](./cron-desktop-notification.sh) or [`cron-sms-notification.sh`](./cron-sms-notification.sh) ).
 
-Note that the `cron.sh` wants you to run it inside of a python virtual environment by running with the env var `RESERVE_AMERICA_VENV_BASE` set to the path of your virtual environment.
+To run with cron, setup a crontab by calling `crontab -e`
 
-An example is:
+SMS notifications
+-----
+An example of a crontab for the `cron-desktop-notifications.sh` is:
 
 ```cron
-*/15 * * * * RESERVE_AMERICA_VENV_BASE='path/to/your/virtualenv' CAMPGROUND="https://www.reserveamerica.com/camping/big-basin-redwoods-sp/r/campgroundDetails.do?contractCode=CA&parkId=120009" LENGTH=2 DATE="04/14/2017" ~/reserve-america-scraper/cron.sh 2>&1 > /dev/null
+SHELL=/bin/bash
+
+*/5 * * * * path/to/reserve-america-scraper/cron-sms-notifications.sh 2>&1 > /dev/null
 ```
 
-Also, make sure that you have `terminal-notifier` installed. That's easy to do with Homebrew:
-
-```sh
-> brew install terminal-notifier
-```
-
-Twilio
-------
-When a reservation is found, you can use Twilio to send you an SMS. Just export the following env vars:
+Note that you must export the following env vars for SMS integration
 ```sh
 # Your Account SID from twilio.com/console
 export TWILIO_ACCOUNT_SID="ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
@@ -46,6 +44,29 @@ export TWILIO_AUTH_TOKEN="your_auth_token"
 export TWILIO_FROM_NUMBER="your_twilio_phone_number"
 # Your personal phone number
 export TWILIO_TO_NUMBER="your_personal_phone_number"
+```
+
+Multiple phone numbers are supported as a colon separated string.
+```sh
+export TWILIO_TO_NUMBER="your_personal_phone_number:your_friends_personal_phone_number"
+```
+
+Desktop notifications
+-----
+An example of a crontab for the the `cron-desktop-notifications.sh` is:
+
+```cron
+SHELL=/bin/bash
+
+*/15 * * * * RESERVE_AMERICA_VENV_BASE='path/to/your/virtualenv' path/to/reserve-america-scraper/cron-sms-notifications.sh 2>&1 > /dev/null
+```
+
+Note that the `cron-desktop-notification.sh` wants you to run it inside of a python virtual environment by running with the env var `RESERVE_AMERICA_VENV_BASE` set to the path of your virtual environment.
+
+Also, make sure that you have `terminal-notifier` installed. That's easy to do with Homebrew:
+
+```sh
+> brew install terminal-notifier
 ```
 
 License
