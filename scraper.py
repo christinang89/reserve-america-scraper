@@ -58,9 +58,8 @@ has_twilio = all([
 ])
 
 # Multiple phone numbers are supported if they are colon separated
-if has_twilio {
+if has_twilio:
     twilio_to_numbers = twilio_to_numbers.split(':')
-}
 
 USER_AGENT = ('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) '
               'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.33 '
