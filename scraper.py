@@ -16,7 +16,8 @@ campsite_urls = {
     # Point Reyes
     'POINT_REYES':'https://www.reserveamerica.com/camping/point-reyes-national-seashore-campground/r/campgroundDetails.do?contractCode=NRSO&parkId=72393',
     # Sequioa
-    'POTWISHA':'https://www.reserveamerica.com/camping/potwisha-campground/r/campgroundDetails.do?contractCode=NRSO&parkId=72461'
+    'POTWISHA':'https://www.reserveamerica.com/camping/potwisha-campground/r/campgroundDetails.do?contractCode=NRSO&parkId=72461',
+    'TUOLUMNE':'https://www.reserveamerica.com/camping/tuolumne-meadows/r/campgroundDetails.do?contractCode=NRSO&parkId=70926',
     # Feel free to add more links here
 }
 
