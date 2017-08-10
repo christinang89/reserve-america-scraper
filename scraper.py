@@ -9,7 +9,7 @@ campsite_urls = {
     'HODGDON_MEADOW':'https://www.reserveamerica.com/camping/hodgdon-meadow/r/campgroundDetails.do?contractCode=NRSO&parkId=70929',
     'WAWONA':'https://www.reserveamerica.com/camping/wawona/r/campgroundDetails.do?contractCode=NRSO&parkId=70924',
     'CRANE_FLAT':'https://www.reserveamerica.com/camping/crane-flat/r/campgroundDetails.do?contractCode=NRSO&parkId=70930',
-    'TUOLUMNE_MEADOWS':'https://www.reserveamerica.com/camping/tuolumne-meadows/r/campgroundDetails.do?contractCode=NRSO&parkId=70926',
+    'TUOLUMNE':'https://www.reserveamerica.com/camping/tuolumne-meadows/r/campgroundDetails.do?contractCode=NRSO&parkId=70926',
     # inner Yosemite
     'UPPER_PINES':'https://www.reserveamerica.com/camping/upper-pines/r/campgroundDetails.do?contractCode=NRSO&parkId=70925',
     'LOWER_PINES':'https://www.reserveamerica.com/camping/lower-pines/r/campgroundDetails.do?contractCode=NRSO&parkId=70928',
@@ -18,14 +18,13 @@ campsite_urls = {
     'POINT_REYES':'https://www.reserveamerica.com/camping/point-reyes-national-seashore-campground/r/campgroundDetails.do?contractCode=NRSO&parkId=72393',
     # Sequioa
     'POTWISHA':'https://www.reserveamerica.com/camping/potwisha-campground/r/campgroundDetails.do?contractCode=NRSO&parkId=72461',
-    'TUOLUMNE':'https://www.reserveamerica.com/camping/tuolumne-meadows/r/campgroundDetails.do?contractCode=NRSO&parkId=70926',
     # Feel free to add more links here
 }
 
 # Update this with the trips you want to take
 # Supported format
 # Date : Length of stay : Campsite Campsite
-desired_trips = ['09/26/17 : 2 : POINT_REYES',
+desired_trips = ['09/26/17 : 2 : POINT_REYES'
                  ]
 # TODO: extract desired_trips to a parsable env variable
 
@@ -70,7 +69,7 @@ def send_sms(message):
 
     msg = "{}. {}".format(message, url)
 
-    # TODO: only send a new SMSes
+    # TODO: only send new SMSes
     client = Client(twilio_account_sid, twilio_auth_token)
     for twilio_to_number in twilio_to_numbers:
         message = client.messages.create(
