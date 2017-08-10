@@ -25,10 +25,8 @@ campsite_urls = {
 # Update this with the trips you want to take
 # Supported format
 # Date : Length of stay : Campsite Campsite
-desired_trips = ['08/26/17 : 2 : HODGDON_MEADOW CRANE_FLAT TUOLUMNE_MEADOWS',
-                 '09/01/17 : 2 : HODGDON_MEADOW',
-                 '09/08/17 : 2 : HODGDON_MEADOW',
-                 '09/22/17 : 2 : HODGDON_MEADOW']
+desired_trips = ['09/26/17 : 2 : POINT_REYES',
+                 ]
 # TODO: extract desired_trips to a parsable env variable
 
 try:
@@ -80,9 +78,8 @@ def send_sms(message):
             from_=twilio_from_number,
             body=msg)
 
-def send_results(result_date, hits):
-    message = "On {}, found available sites: {}".format(
-        result_date, ', '.join(hits))
+def send_results(result_date, hits, url):
+    message = "On {}, found {} sites at {}".format(result_date, len(hits), url)
     if has_twilio:
         send_sms(message)
     else:
@@ -128,7 +125,7 @@ def run(date, length_of_stay, url):
                 hits.append(label)
 
     if hits:
-        send_results(date, hits)
+        send_results(date, hits, response.geturl())
 
 
 if __name__ == '__main__':
