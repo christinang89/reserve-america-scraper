@@ -63,11 +63,9 @@ USER_AGENT = ('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) '
               'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.33 '
               'Safari/537.36')
 
-def send_sms(message):
+def send_sms(msg):
     if not has_twilio:
         return
-
-    msg = "{}. {}".format(message, url)
 
     # TODO: only send new SMSes
     client = Client(twilio_account_sid, twilio_auth_token)
