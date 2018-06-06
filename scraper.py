@@ -84,7 +84,7 @@ def send_sms(msg):
 def send_results(result_date, hits, campsite, url):
     message = "Found {} sites on {} at {}: {}".format(len(hits), result_date, campsite, url)
     if has_twilio:
-    print("Sent sms at " + datetime.datetime.now().strftime("%a, %d %B %Y %H:%M:%S"))
+        print("Sent sms at " + datetime.datetime.now().strftime("%a, %d %B %Y %H:%M:%S"))
         send_sms(message)
     else:
         print(message)
@@ -131,8 +131,8 @@ def run(date, length_of_stay, campsite, url):
     if hits:
         send_results(date, hits, campsite, response.geturl())
     else:
-    print(datetime.datetime.now().strftime("%a, %d %B %Y %H:%M:%S"))
-    print("Nothing found for " + length_of_stay + " nights at " + campsite + " on " + date)
+        print(datetime.datetime.now().strftime("%a, %d %B %Y %H:%M:%S"))
+        print("Nothing found for " + length_of_stay + " nights at " + campsite + " on " + date)
 
 
 if __name__ == '__main__':
