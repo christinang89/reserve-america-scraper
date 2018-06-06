@@ -11,8 +11,6 @@ with open('campsites.csv') as csvfile:
         reader = csv.reader(csvfile)
         campsites = dict((rows[0],rows[1]) for rows in reader)
 
-# TODO: extract desired_trips to a parsable env variable
-
 try:
     import mechanize
     from bs4 import BeautifulSoup
