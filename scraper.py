@@ -3,6 +3,7 @@
 from __future__ import print_function
 import os
 import sys
+import datetime
 
 campsite_urls = {
     # outer Yosemite
@@ -18,13 +19,18 @@ campsite_urls = {
     'POINT_REYES':'https://www.reserveamerica.com/camping/point-reyes-national-seashore-campground/r/campgroundDetails.do?contractCode=NRSO&parkId=72393',
     # Sequioa
     'POTWISHA':'https://www.reserveamerica.com/camping/potwisha-campground/r/campgroundDetails.do?contractCode=NRSO&parkId=72461',
+    # Lodgepole
+    'LODGEPOLE':'https://www.reserveamerica.com/camping/lodgepole-campgroundsequoia-and-kings-canyon-national-park/r/campgroundDetails.do?contractCode=NRSO&parkId=70941'
     # Feel free to add more links here
 }
 
 # Update this with the trips you want to take
 # Supported format
 # Date : Length of stay : Campsite Campsite
-desired_trips = ['09/26/17 : 2 : POINT_REYES'
+desired_trips = ['07/06/18 : 2 : LOWER_PINES',
+'07/07/18 : 1 : LOWER_PINES',
+'07/06/18 : 2 : UPPER_PINES', 
+'07/07/18 : 1 : UPPER_PINES'
                  ]
 # TODO: extract desired_trips to a parsable env variable
 
@@ -75,14 +81,15 @@ def send_sms(msg):
             from_=twilio_from_number,
             body=msg)
 
-def send_results(result_date, hits, url):
-    message = "On {}, found {} sites at {}".format(result_date, len(hits), url)
+def send_results(result_date, hits, campsite, url):
+    message = "Found {} sites on {} at {}: {}".format(len(hits), result_date, campsite, url)
     if has_twilio:
+    print("Sent sms at " + datetime.datetime.now().strftime("%a, %d %B %Y %H:%M:%S"))
         send_sms(message)
     else:
         print(message)
 
-def run(date, length_of_stay, url):
+def run(date, length_of_stay, campsite, url):
     hits = []
 
     # Create browser
@@ -122,7 +129,10 @@ def run(date, length_of_stay, url):
                 hits.append(label)
 
     if hits:
-        send_results(date, hits, response.geturl())
+        send_results(date, hits, campsite, response.geturl())
+    else:
+    print(datetime.datetime.now().strftime("%a, %d %B %Y %H:%M:%S"))
+    print("Nothing found for " + length_of_stay + " nights at " + campsite + " on " + date)
 
 
 if __name__ == '__main__':
@@ -134,4 +144,4 @@ if __name__ == '__main__':
 
         for campsite in campsites:
             campsite_url = campsite_urls[campsite]
-            run(date, length_of_stay, campsite_url)
+            run(date, length_of_stay, campsite, campsite_url)
