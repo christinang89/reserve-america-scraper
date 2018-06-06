@@ -7,7 +7,10 @@ import datetime
 import csv
 
 # Read list of campsites and their URLs into Dictionary
-with open('campsites.csv') as csvfile:
+dirname = os.path.dirname(os.path.abspath(__file__))
+campsites_file = os.path.join(dirname, 'campsites.csv')
+
+with open(campsites_file) as csvfile:
         reader = csv.reader(csvfile)
         campsites = dict((rows[0],rows[1]) for rows in reader)
 
@@ -115,7 +118,9 @@ def run(date, length_of_stay, campsite, url):
 if __name__ == '__main__':
 
     # Read trips from CSV file
-    with open('trips.csv', 'rb') as csvfile:
+    
+    trips_file = os.path.join(dirname, 'trips.csv')
+    with open(trips_file, 'rb') as csvfile:
         trips = csv.reader(csvfile)
 
         for trip in trips:
