@@ -6,7 +6,8 @@ Scrape Reserve America for your favorite campsite
 Usage
 -----
 
-Set the `desired_trips` variable in scraper.py.
+Set the campsites wanted in campsites.csv in the following format: Name of Campsite, URL of Campsite
+Set the trips desired in  trips.csv in the following format: Date, Length of Stay, Name of Campsite
 
 Run the setup script, and call the scraper.py script!
 
@@ -15,23 +16,26 @@ Run the setup script, and call the scraper.py script!
 > ./scraper.py
 ```
 
-
 Then the scraper will search the given campsite for the date with the length of stay.
 
 cron
 ======================
-You can also set up the script to run under cron, and notify you on macOS using one of the provided cron scripts ( [`cron-desktop-notification.sh`](./cron-desktop-notification.sh) or [`cron-sms-notification.sh`](./cron-sms-notification.sh) ).
+You can also set up the script to run under cron.
 
 To run with cron, setup a crontab by calling `crontab -e`
 
 SMS notifications
 -----
-An example of a crontab for the `cron-desktop-notifications.sh` is:
+An example of a crontab is:
 
+Cron job running every 15 min (output to logfile):
 ```cron
-SHELL=/bin/bash
+*/15 * * * * python path/to/reserve-america-scraper/scraper.py >> path/to/logfile 2>&1
+```
 
-*/5 * * * * path/to/reserve-america-scraper/cron-sms-notifications.sh 2>&1 > /dev/null
+Cron job running every min (discard output):
+```cron
+* * * * * python path/to/reserve-america-scraper/scraper.py 2>&1 > /dev/null
 ```
 
 Note that you must export the following env vars for SMS integration
@@ -49,24 +53,6 @@ export TWILIO_TO_NUMBER="your_personal_phone_number"
 Multiple phone numbers are supported as a colon separated string.
 ```sh
 export TWILIO_TO_NUMBER="your_personal_phone_number:your_friends_personal_phone_number"
-```
-
-Desktop notifications
------
-An example of a crontab for the the `cron-desktop-notifications.sh` is:
-
-```cron
-SHELL=/bin/bash
-
-*/15 * * * * RESERVE_AMERICA_VENV_BASE='path/to/your/virtualenv' path/to/reserve-america-scraper/cron-sms-notifications.sh 2>&1 > /dev/null
-```
-
-Note that the `cron-desktop-notification.sh` wants you to run it inside of a python virtual environment by running with the env var `RESERVE_AMERICA_VENV_BASE` set to the path of your virtual environment.
-
-Also, make sure that you have `terminal-notifier` installed. That's easy to do with Homebrew:
-
-```sh
-> brew install terminal-notifier
 ```
 
 License
