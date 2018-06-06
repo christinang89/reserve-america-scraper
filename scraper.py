@@ -4,6 +4,7 @@ from __future__ import print_function
 import os
 import sys
 import datetime
+import csv
 
 campsite_urls = {
     # outer Yosemite
@@ -24,14 +25,6 @@ campsite_urls = {
     # Feel free to add more links here
 }
 
-# Update this with the trips you want to take
-# Supported format
-# Date : Length of stay : Campsite Campsite
-desired_trips = ['07/06/18 : 2 : LOWER_PINES',
-'07/07/18 : 1 : LOWER_PINES',
-'07/06/18 : 2 : UPPER_PINES', 
-'07/07/18 : 1 : UPPER_PINES'
-                 ]
 # TODO: extract desired_trips to a parsable env variable
 
 try:
@@ -136,12 +129,14 @@ def run(date, length_of_stay, campsite, url):
 
 
 if __name__ == '__main__':
-    for desired_trip in desired_trips:
-        date = desired_trip.split(' : ')[0]
-        length_of_stay = desired_trip.split(' : ')[1]
-        campsites = desired_trip.split(' : ')[2]
-        campsites = campsites.split(' ')
+    with open('trips.csv', 'rb') as csvfile:
+        trips = csv.reader(csvfile)
+        for trip in trips:
+            date = trip[0]
+            length_of_stay = trip[1]
+            campsites = trip[2]
+            campsites = campsites.split(' ')
 
-        for campsite in campsites:
-            campsite_url = campsite_urls[campsite]
-            run(date, length_of_stay, campsite, campsite_url)
+            for campsite in campsites:
+                campsite_url = campsite_urls[campsite]
+                run(date, length_of_stay, campsite, campsite_url)
