@@ -6,24 +6,10 @@ import sys
 import datetime
 import csv
 
-campsite_urls = {
-    # outer Yosemite
-    'HODGDON_MEADOW':'https://www.reserveamerica.com/camping/hodgdon-meadow/r/campgroundDetails.do?contractCode=NRSO&parkId=70929',
-    'WAWONA':'https://www.reserveamerica.com/camping/wawona/r/campgroundDetails.do?contractCode=NRSO&parkId=70924',
-    'CRANE_FLAT':'https://www.reserveamerica.com/camping/crane-flat/r/campgroundDetails.do?contractCode=NRSO&parkId=70930',
-    'TUOLUMNE':'https://www.reserveamerica.com/camping/tuolumne-meadows/r/campgroundDetails.do?contractCode=NRSO&parkId=70926',
-    # inner Yosemite
-    'UPPER_PINES':'https://www.reserveamerica.com/camping/upper-pines/r/campgroundDetails.do?contractCode=NRSO&parkId=70925',
-    'LOWER_PINES':'https://www.reserveamerica.com/camping/lower-pines/r/campgroundDetails.do?contractCode=NRSO&parkId=70928',
-    'NORTH_PINES':'https://www.reserveamerica.com/camping/north-pines/r/campgroundDetails.do?contractCode=NRSO&parkId=70927',
-    # Point Reyes
-    'POINT_REYES':'https://www.reserveamerica.com/camping/point-reyes-national-seashore-campground/r/campgroundDetails.do?contractCode=NRSO&parkId=72393',
-    # Sequioa
-    'POTWISHA':'https://www.reserveamerica.com/camping/potwisha-campground/r/campgroundDetails.do?contractCode=NRSO&parkId=72461',
-    # Lodgepole
-    'LODGEPOLE':'https://www.reserveamerica.com/camping/lodgepole-campgroundsequoia-and-kings-canyon-national-park/r/campgroundDetails.do?contractCode=NRSO&parkId=70941'
-    # Feel free to add more links here
-}
+# Read list of campsites and their URLs into Dictionary
+with open('campsites.csv') as csvfile:
+        reader = csv.reader(csvfile)
+        campsites = dict((rows[0],rows[1]) for rows in reader)
 
 # TODO: extract desired_trips to a parsable env variable
 
@@ -129,14 +115,18 @@ def run(date, length_of_stay, campsite, url):
 
 
 if __name__ == '__main__':
+
+    # Read trips from CSV file
     with open('trips.csv', 'rb') as csvfile:
         trips = csv.reader(csvfile)
+
         for trip in trips:
+
+            # Retrieve Date, Length of Stay, Campsite, Campsite URL
             date = trip[0]
             length_of_stay = trip[1]
-            campsites = trip[2]
-            campsites = campsites.split(' ')
-
-            for campsite in campsites:
-                campsite_url = campsite_urls[campsite]
-                run(date, length_of_stay, campsite, campsite_url)
+            campsite = trip[2]
+            campsite_url = campsites[campsite]
+            
+            # Run results
+            run(date,length_of_stay, campsite, campsite_url)
