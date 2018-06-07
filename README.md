@@ -30,11 +30,21 @@ An example of a crontab is:
 
 Cron job running every 15 min (output to logfile):
 ```cron
+TWILIO_ACCOUNT_SID=ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+TWILIO_AUTH_TOKEN=your_auth_token
+TWILIO_FROM_NUMBER=your_twilio_phone_number
+TWILIO_TO_NUMBER=your_personal_phone_number
+
 */15 * * * * python path/to/reserve-america-scraper/scraper.py >> path/to/logfile 2>&1
 ```
 
 Cron job running every min (discard output):
 ```cron
+TWILIO_ACCOUNT_SID=ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+TWILIO_AUTH_TOKEN=your_auth_token
+TWILIO_FROM_NUMBER=your_twilio_phone_number
+TWILIO_TO_NUMBER=your_personal_phone_number
+
 * * * * * python path/to/reserve-america-scraper/scraper.py 2>&1 > /dev/null
 ```
 
