@@ -62,10 +62,12 @@ def send_sms(msg):
             body=msg)
 
 def send_results(result_date, hits, campsite, length_of_stay, url):
-    message = "Found {} sites on {} at {} for {} nights: {}".format(len(hits), result_date, campsite, length_of_stay, url)
+    message = "Found {} sites at {} on {} for {} nights: {}".format(len(hits), campsite, result_date, length_of_stay, url)
+
     if has_twilio:
-        print("Sent sms at " + datetime.datetime.now().strftime("%a, %d %B %Y %H:%M:%S"))
+        print(message)
         send_sms(message)
+        print("Sent sms at " + datetime.datetime.now().strftime("%a, %d %B %Y %H:%M:%S"))
     else:
         print(message)
 
@@ -108,10 +110,11 @@ def run(date, length_of_stay, campsite, url):
             if not is_group and not is_ada and status.startswith('available'):
                 hits.append(label)
 
+    print(datetime.datetime.now().strftime("%a, %d %B %Y %H:%M:%S"))
+
     if hits:
         send_results(date, hits, campsite, length_of_stay, response.geturl())
     else:
-        print(datetime.datetime.now().strftime("%a, %d %B %Y %H:%M:%S"))
         print("Nothing found for " + length_of_stay + " nights at " + campsite + " on " + date)
 
 
