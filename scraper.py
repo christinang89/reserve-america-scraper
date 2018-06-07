@@ -61,8 +61,8 @@ def send_sms(msg):
             from_=twilio_from_number,
             body=msg)
 
-def send_results(result_date, hits, campsite, url):
-    message = "Found {} sites on {} at {}: {}".format(len(hits), result_date, campsite, url)
+def send_results(result_date, hits, campsite, length_of_stay, url):
+    message = "Found {} sites on {} at {} for {} nights: {}".format(len(hits), result_date, campsite, length_of_stay, url)
     if has_twilio:
         print("Sent sms at " + datetime.datetime.now().strftime("%a, %d %B %Y %H:%M:%S"))
         send_sms(message)
@@ -109,7 +109,7 @@ def run(date, length_of_stay, campsite, url):
                 hits.append(label)
 
     if hits:
-        send_results(date, hits, campsite, response.geturl())
+        send_results(date, hits, campsite, length_of_stay, response.geturl())
     else:
         print(datetime.datetime.now().strftime("%a, %d %B %Y %H:%M:%S"))
         print("Nothing found for " + length_of_stay + " nights at " + campsite + " on " + date)
